@@ -1,4 +1,4 @@
-export default function CardMovie(movie) {
+export default function CardMovie({movie}) {
     return (
         <>
             <div className="card w-72 bg-base-100 shadow-xl image-full">

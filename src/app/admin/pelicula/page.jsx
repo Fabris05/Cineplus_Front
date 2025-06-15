@@ -1,20 +1,21 @@
 "use client";
 import AdminHeader from "@/components/AdminHeader";
 import CardMovie from "@/components/CardMovie";
-import {useState} from "react";
+import axios from "axios";
+import { useEffect, useState } from "react";
+
 
 export default function AdminPagePelicula() {
-    const[movie, setMovie] = useState([]);
+    const[movieList, setMovieList] = useState([]);
 
-    // const getMovies = async () => {
-    //     const response = await axios.get(
-    //         "http://localhost:8080/peliculas");
-    //     setMovie(response.data);
-    // }
+    const getMovies = async () => {
+        const response = await axios.get("http://localhost:8080/peliculas");
+        setMovieList(response.data);
+    }
 
-    // useEffect(() => {
-    //     getMovies();
-    // },[])
+    useEffect(() => {
+        getMovies();
+    },[]);
 
     return (
         <>
@@ -32,11 +33,10 @@ export default function AdminPagePelicula() {
 
                 <div className="p-4">
                     {
-                        movie.map((movie, index) => (
+                        movieList.map((movie, index) => (
                             <CardMovie key={index} movie={movie}/>
                         ))
                     }
-                    <CardMovie/>
                 </div>
             </main>
         </>
