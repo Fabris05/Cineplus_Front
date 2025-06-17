@@ -2,13 +2,15 @@
 import AdminHeader from "@/components/AdminHeader";
 import CardMovie from "@/components/CardMovie";
 import ModalPelicula from "@/components/ModalPelicula";
+import { MovieContext } from "@/context/MovieContext";
 import axios from "axios";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 
 
 export default function AdminPagePelicula() {
     const[movieList, setMovieList] = useState([]);
     const[showModal, setShowModal] = useState(false);
+    const{initialMovieForm, handlerAddMovie} = useContext(MovieContext);
 
     const getMovies = async () => {
         const response = await axios.get("http://localhost:8080/peliculas");
@@ -33,14 +35,14 @@ export default function AdminPagePelicula() {
                     </button>
                 </div>
                 
-                <div className="p-4">
+                <div className="p-4 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-2">
                     {
                         movieList.map((movie, index) => (
                             <CardMovie key={index} movie={movie}/>
                         ))
                     }
                 </div>
-                <ModalPelicula isOpen={showModal} onClose = { () => setShowModal(false) } />
+                <ModalPelicula isOpen={showModal} onClose = { () => setShowModal(false)} handlerAddMovie={handlerAddMovie} initialForm={initialMovieForm} />
             </main>
         </>
     );
