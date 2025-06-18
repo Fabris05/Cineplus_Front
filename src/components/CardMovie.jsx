@@ -1,11 +1,12 @@
 export default function CardMovie({movie}) {
     return (
         <>
-            <div className="card w-72 bg-base-100 shadow-xl image-full">
-                <figure>
-                    <img
+            <div className="card w-72 bg-base-100 shadow-xl image-full shadow-md transform transition duration-400 ease-in-out hover:scale-105">
+                <figure className="w-72 h-110 overflow-hidden">
+                    <img 
                         src={movie.imagen}
                         alt={movie.nombre}
+                        className="w-full h-full object-cover"
                     />
                 </figure>
                 <div className="card-body">

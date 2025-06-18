@@ -22,14 +22,14 @@ export const useMovie = () => {
     const [movieSelected, setMovieSelected] = useState(initialMovieForm);
     const [visibleModal, setVisibleModal] = useState(false);
 
-    const handlerAddMovie = async (movie, file) => {
+    const handlerAddMovie = async (movie) => {
         try {
             let imageName = "";
 
-            if (file) {
+            if (movie.imagen) {
                 console.log("form.imagen:", movie.imagen);
                 const formData = new FormData();
-                formData.append("imagen", file);
+                formData.append("imagen", movie.imagen);
                 const res = await fetch("/api/upload", {
                     method: "POST",
                     body: formData,

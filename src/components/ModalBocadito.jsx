@@ -1,18 +1,14 @@
+"use client";
 import { useEffect, useState } from "react";
 
-export default function ModalPelicula({
-    isOpen,
-    onClose,
-    handlerAddMovie,
-    initialForm,
-}) {
+export default function ModalBocadito({isOpen, onClose, handlerAddBocadito, initialBocaditoForm}) {
+    
     const [show, setShow] = useState(false);
-    const [form, setForm] = useState(initialForm);
+    const [form, setForm] = useState(initialBocaditoForm);
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        console.log("Formulario completo:", form); // ¿imagen está definida?
-        await handlerAddMovie(form);
+        await handlerAddBocadito(form);
         onClose();
     };
 
@@ -34,7 +30,7 @@ export default function ModalPelicula({
     }, [isOpen]);
 
     if (!isOpen) return null;
-
+    
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
             <div
@@ -44,90 +40,54 @@ export default function ModalPelicula({
                 `}
             >
                 <h3 className="text-lg font-bold mb-4 text-black">
-                    Agregar Película
+                    Agregar Bocadito
                 </h3>
 
                 <form onSubmit={onSubmit}>
                     <div className="flex flex-col gap-4">
                         <label className="input input-neutral bg-white w-full max-w-md ">
                             <span className="label text-black font-bold w-40">
-                                Título
+                                Bocadito
                             </span>
                             <input
                                 type="text"
                                 className="text-black"
-                                placeholder="Ingrese el Título"
+                                placeholder="Ingrese el bocadito"
                                 name="nombre"
                                 value={form.nombre}
                                 onChange={handleChange}
-                            />
-                        </label>
-                        <label className="input input-neutral bg-white w-full max-w-md ">
-                            <span className="label text-black font-bold w-40">
-                                Director
-                            </span>
-                            <input
-                                type="text"
-                                className="text-black"
-                                placeholder="Ingrese el director"
-                                name="director"
-                                value={form.director}
-                                onChange={handleChange}
-                            />
-                        </label>
-                        <label className="input input-neutral bg-white w-full max-w-md ">
-                            <span className="label text-black font-bold w-29">
-                                Duración
-                            </span>
-                            <input
-                                type="text"
-                                className="text-black w-19"
-                                placeholder="horas"
-                                name="horas"
-                                value={form.horas}
-                                onChange={handleChange}
-                            />
-                            <label className="text-black">:</label>
-                            <input
-                                type="text"
-                                className="text-black w-19"
-                                placeholder="minutos"
-                                name="minutos"
-                                value={form.minutos}
-                                onChange={handleChange}
+                                autoComplete="off"
                             />
                         </label>
                         <label className="select input-neutral bg-white w-full max-w-md ">
                             <span className="label text-black font-bold w-40">
-                                Género
+                                Categoría
                             </span>
                             <select
                                 className="text-black"
-                                name="genero"
-                                value={form.genero}
+                                name="categoria"
+                                value={form.categoria}
                                 onChange={handleChange}
                             >
-                                <option value="Romance">Romance</option>
-                                <option value="Drama">Drama</option>
-                                <option value="Sci-fi">Ciencia Ficción</option>
+                                <option value="">Seleccione una opción</option>
+                                <option value="Combo">Combo</option>
+                                <option value="Canchita">Canchita</option>
+                                <option value="Bebida">Bebida</option>
+                                <option value="Golosina">Golosina</option>
                             </select>
                         </label>
-
-                        <label className="select input-neutral bg-white w-full max-w-md ">
+                        <label className="input input-neutral bg-white w-full max-w-md ">
                             <span className="label text-black font-bold w-40">
-                                Clasificación
+                                Precio
                             </span>
-                            <select
+                            <input
+                                type="text"
                                 className="text-black"
-                                name="clasificacion"
-                                value={form.clasificacion}
+                                placeholder="Ingrese el precio"
+                                name="precio"
+                                value={form.precio}
                                 onChange={handleChange}
-                            >
-                                <option value="APT">Apto para todos</option>
-                                <option value="+12">Mayores de 12 años</option>
-                                <option value="+14">Mayores de 14 años</option>
-                                <option value="+18">Mayores de 18 años</option>
-                            </select>
+                            />
                         </label>
                         <div className="flex flex-col form-control w-full max-w-md-sm gap-3">
                             <label className="label">
@@ -137,11 +97,12 @@ export default function ModalPelicula({
                             </label>
                             <textarea
                                 className="textarea w-full textarea-bordered bg-white text-black resize-none"
-                                placeholder="Escribe la descripción de la película"
+                                placeholder="Escribe la descripción del bocadito"
                                 rows={4}
-                                name="sinopsis"
-                                value={form.sinopsis}
+                                name="descripcion"
+                                value={form.descripcion}
                                 onChange={handleChange}
+                                autoComplete="off"
                             ></textarea>
                         </div>
                         <label className="select input-neutral bg-white w-full max-w-md">
@@ -153,7 +114,6 @@ export default function ModalPelicula({
                                 value={form.estado}
                                 onChange={handleChange}
                                 className="text-black"
-                                readOnly={true}
                             >
                                 <option value="No listado">No Listado</option>
                             </select>

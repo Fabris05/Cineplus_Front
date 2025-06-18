@@ -5,6 +5,7 @@ export async function POST(request) {
     try {
         const data = await request.formData();
         const file = data.get("imagen");
+        const tipo = data.get("tipo")
 
         if (!file) {
             return new Response(JSON.stringify({ error: "No file provided" }), {
@@ -15,13 +16,10 @@ export async function POST(request) {
         const bytes = await file.arrayBuffer();
         const buffer = Buffer.from(bytes);
 
-        const filePath = path.join(
-            process.cwd(),
-            "public",
-            "images",
-            "movies",
-            file.name
-        );
+        const fileName = path.basename(file.name);
+        const folder = tipo === "bocadito" ? "snacks" : "movies";
+
+        const filePath = path.join(process.cwd(), "public", "images", folder, fileName);
         await writeFile(filePath, buffer);
 
         return new Response(
