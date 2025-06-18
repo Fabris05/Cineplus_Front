@@ -44,7 +44,7 @@ export const useBocadito = () => {
                 imagen: `/images/snacks/${imageName}`,
             };
 
-            const response = axios.post("http://localhost:8080/bocaditos/save",
+            const response = await axios.post("http://localhost:8080/bocaditos/save",
                 bocaditoToSend
             )
 
