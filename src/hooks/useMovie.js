@@ -77,6 +77,59 @@ export const useMovie = () => {
         }
     };
 
+    const handlerUpdateMovie = async (movie) => {
+        let idPelicula = movie.idPelicula;
+        const duracion = `${movie.horas.padStart(2, "0")}:${movie.minutos.padStart(2, "0")}`;
+        try {
+            const response = await axios.put(
+                `http://localhost:8080/peliculas/edit/${idPelicula}`,
+                {
+                    nombre: movie.nombre,
+                    director: movie.director,
+                    genero: movie.genero,
+                    sinopsis: movie.sinopsis,
+                    clasificacion: movie.clasificacion,
+                    duracion: duracion,
+                }
+            );
+            Swal.fire({
+                title: "Película actualizada",
+                text: "La película fue editada correctamente.",
+                icon: "success",
+            });
+        } catch (error) {
+            Swal.fire({
+                title: "Error",
+                text: "No se pudo actualizar la película.",
+                icon: "error",
+            });
+            console.error(error);
+        }
+    };
+
+    const handlerChangeState = async (id, estado) => {
+        try {
+            const response = await axios.patch(
+                `http://localhost:8080/peliculas/edit/state/${id}`,
+                { estado },
+                { headers: { "Content-Type": "application/json" } }
+            );
+
+            Swal.fire({
+                title: "Estado actualizado",
+                text: "El estado ha sido actualizado con éxito!",
+                icon: "success",
+            });
+        } catch (error) {
+            Swal.fire({
+                title: "Error",
+                text: "Ha ocurrido un error al actualizar el estado!",
+                icon: "error",
+            });
+            console.log(error);
+        }
+    };
+
     const handlerCloseModal = () => {
         setVisibleModal(false);
         setMovieSelected(initialMovieForm);
@@ -89,5 +142,7 @@ export const useMovie = () => {
         visibleModal,
         handlerAddMovie,
         handlerCloseModal,
+        handlerChangeState,
+        handlerUpdateMovie
     };
 };

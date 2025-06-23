@@ -53,6 +53,12 @@ export const UseUsuario = () => {
         }
     };
 
+    const handlerUserSelectedForm = (user) => {
+        setVisibleModal(true);
+        setUsuarioSelected({...user});
+
+    }
+
     const handlerCloseModal = () => {
         setVisibleModal(false);
         setUsuarioSelected(initialUserForm);
@@ -68,6 +74,7 @@ export const UseUsuario = () => {
         initialUserForm,
         visibleModal,
         handlerAddUser,
+        handlerUserSelectedForm,
         handlerCloseModal,
         handlerOpenModal,
     }

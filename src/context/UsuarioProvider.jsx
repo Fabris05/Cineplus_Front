@@ -10,6 +10,7 @@ export const UsuarioProvider = ({ children }) => {
         initialUserForm,
         visibleModal,
         handlerAddUser,
+        handlerUserSelectedForm,
         handlerCloseModal,
         handlerOpenModal,
     } = UseUsuario();
@@ -22,6 +23,7 @@ export const UsuarioProvider = ({ children }) => {
                 initialUserForm,
                 visibleModal,
                 handlerAddUser,
+                handlerUserSelectedForm,
                 handlerCloseModal,
                 handlerOpenModal,
             }}

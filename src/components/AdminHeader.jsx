@@ -10,7 +10,7 @@ export default function AdminHeader() {
                 <nav>
                     <ul className="flex flex-row gap-10 text-white text-7x1 font-semibold items-center">
                         <li className="hover:text-yellow-300 duration-300 ease-in">
-                            <Link href="/admin/pelicula">Peliculas</Link>
+                            <Link href="/admin/pelicula">Películas</Link>
                         </li>
                         <li className="hover:text-yellow-300 duration-300 ease-in">
                             <Link href="/admin/pelicula">Cartelera</Link>

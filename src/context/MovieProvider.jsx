@@ -10,6 +10,8 @@ export const MovieProvider = ({ children }) => {
         visibleModal,
         handlerAddMovie,
         handlerCloseModal,
+        handlerChangeState,
+        handlerUpdateMovie
     } = useMovie();
 
     return (
@@ -21,6 +23,8 @@ export const MovieProvider = ({ children }) => {
                 visibleModal,
                 handlerAddMovie,
                 handlerCloseModal,
+                handlerChangeState,
+                handlerUpdateMovie
             }}
         >
             {children}

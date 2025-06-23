@@ -6,7 +6,6 @@ export const moviesReducer = (state = [], action) => {
                     ...action.payload
                 }
             ];
-        case 'RemoveMovieLogic':
-            return state.filter((movie => movie.id !== action.payload))
+        
     }
 }

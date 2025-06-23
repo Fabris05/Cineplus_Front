@@ -1,18 +1,26 @@
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 
 export default function ModalPelicula({
     isOpen,
     onClose,
     handlerAddMovie,
+    handlerUpdateMovie,
     initialForm,
+    isEdit,
 }) {
     const [show, setShow] = useState(false);
     const [form, setForm] = useState(initialForm);
+    const router = useRouter();
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        console.log("Formulario completo:", form); // ¿imagen está definida?
-        await handlerAddMovie(form);
+        if (isEdit) {
+            await handlerUpdateMovie(form);
+        } else {
+            await handlerAddMovie(form);
+        }
+        router.refresh();
         onClose();
     };
 
@@ -25,13 +33,29 @@ export default function ModalPelicula({
         }
     };
 
+    const handleAddData = (initialForm) => {
+        const {duracion} = initialForm;
+        if (duracion) {
+            const [horas, minutos] = duracion.split(":");
+            setForm({
+                ...initialForm,
+                horas,
+                minutos
+            });
+        } else {
+            setForm(initialForm);
+        }
+
+    };
+
     useEffect(() => {
         if (isOpen) {
+            handleAddData(initialForm);
             setShow(true);
         } else {
             setShow(false);
         }
-    }, [isOpen]);
+    }, [isOpen, initialForm]);
 
     if (!isOpen) return null;
 
@@ -44,7 +68,7 @@ export default function ModalPelicula({
                 `}
             >
                 <h3 className="text-lg font-bold mb-4 text-black">
-                    Agregar Película
+                    {isEdit ? "Editar Película" : "Agregar Película"}
                 </h3>
 
                 <form onSubmit={onSubmit}>
@@ -84,7 +108,7 @@ export default function ModalPelicula({
                                 className="text-black w-19"
                                 placeholder="horas"
                                 name="horas"
-                                value={form.horas}
+                                value={form.horas || ""}
                                 onChange={handleChange}
                             />
                             <label className="text-black">:</label>
@@ -93,7 +117,7 @@ export default function ModalPelicula({
                                 className="text-black w-19"
                                 placeholder="minutos"
                                 name="minutos"
-                                value={form.minutos}
+                                value={form.minutos || ""}
                                 onChange={handleChange}
                             />
                         </label>
@@ -107,9 +131,15 @@ export default function ModalPelicula({
                                 value={form.genero}
                                 onChange={handleChange}
                             >
+                                <option value="">Selecciona un género</option>
                                 <option value="Romance">Romance</option>
                                 <option value="Drama">Drama</option>
+                                <option value="Accion">Acción</option>
                                 <option value="Sci-fi">Ciencia Ficción</option>
+                                <option value="Comedia">Comedia</option>
+                                <option value="Terror">Terror</option>
+                                <option value="Documental">Documental</option>
+                                <option value="Fantasia">Fantasía</option>
                             </select>
                         </label>
 
@@ -144,31 +174,37 @@ export default function ModalPelicula({
                                 onChange={handleChange}
                             ></textarea>
                         </div>
-                        <label className="select input-neutral bg-white w-full max-w-md">
-                            <span className="label text-black font-bold w-40">
-                                Estado
-                            </span>
-                            <select
-                                name="estado"
-                                value={form.estado}
-                                onChange={handleChange}
-                                className="text-black"
-                                readOnly={true}
-                            >
-                                <option value="No listado">No Listado</option>
-                            </select>
-                        </label>
-                        <fieldset className="fieldset">
-                            <legend className="fieldset-legend text-black">
-                                Selecciona una imagen
-                            </legend>
-                            <input
-                                type="file"
-                                className="file-input w-full bg-white text-black"
-                                name="imagen"
-                                onChange={handleChange}
-                            />
-                        </fieldset>
+                        {!isEdit && (
+                            <>
+                                <label className="select input-neutral bg-white w-full max-w-md">
+                                    <span className="label text-black font-bold w-40">
+                                        Estado
+                                    </span>
+                                    <select
+                                        name="estado"
+                                        value={form.estado}
+                                        onChange={handleChange}
+                                        className="text-black"
+                                        readOnly={true}
+                                    >
+                                        <option value="No listado">
+                                            No Listado
+                                        </option>
+                                    </select>
+                                </label>
+                                <fieldset className="fieldset">
+                                    <legend className="fieldset-legend text-black">
+                                        Selecciona una imagen
+                                    </legend>
+                                    <input
+                                        type="file"
+                                        className="file-input w-full bg-white text-black"
+                                        name="imagen"
+                                        onChange={handleChange}
+                                    />
+                                </fieldset>
+                            </>
+                        )}
                     </div>
 
                     <div className="flex justify-end mt-4">
