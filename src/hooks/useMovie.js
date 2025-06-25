@@ -107,10 +107,14 @@ export const useMovie = () => {
         }
     };
 
-    const handlerChangeState = async (id, estado) => {
+    const handlerChangeState = async (id, estado, tipo) => {
+
+        const tiposValidos = ['peliculas', 'bocaditos', 'tipoentrada'];
+        const endPoint = tiposValidos.includes(tipo) ? tipo : null;
+
         try {
             const response = await axios.patch(
-                `http://localhost:8080/peliculas/edit/state/${id}`,
+                `http://localhost:8080/${endPoint}/edit/state/${id}`,
                 { estado },
                 { headers: { "Content-Type": "application/json" } }
             );

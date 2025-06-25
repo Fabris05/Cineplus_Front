@@ -1,4 +1,4 @@
-export default function CardBocadito({ bocadito }) {
+export default function CardBocadito({ bocadito, onEdit, onEditState }) {
     return (
         <div className="card w-80 bg-base-100 shadow-md hover:shadow-lg transition-shadow">
             <figure className="h-50 overflow-hidden">
@@ -24,13 +24,13 @@ export default function CardBocadito({ bocadito }) {
                 <div className="card-actions justify-end mt-4">
                     <button
                         className="btn btn-sm btn-warning"
-                        // onClick={() => onEdit(bocadito)}
+                        onClick={onEdit}
                     >
                         Editar
                     </button>
                     <button
                         className="btn btn-sm btn-error"
-                        // onClick={() => onDelete(bocadito.id)}
+                        onClick={onEditState}
                     >
                         Estado
                     </button>

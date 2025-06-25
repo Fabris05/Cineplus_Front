@@ -69,6 +69,33 @@ export const useBocadito = () => {
         }
     }
 
+    const handlerUpdateBocadito = async (bocadito) => {
+
+        let idBocadito = bocadito.idBocadito;
+
+        try{
+            const response = await axios.put(`http://localhost:8080/bocaditos/edit/${idBocadito}`,
+                {
+                    nombre: bocadito.nombre,
+                    descripcion: bocadito.descripcion,
+                    categoria: bocadito.categoria,
+                    descripcion: bocadito.descripcion,
+                    precio: bocadito.precio,
+                }
+            );
+            Swal.fire({
+                title: "Bocadito editado",
+                text: "El bocadito ha sido editado con éxito!",
+                icon: "success",
+            })
+        }catch(error){
+            Swal.fire({
+                title: "Error",
+                text: "Ha ocurrido un error al editar el bocadito!",
+                icon: "error",
+            })
+        }
+    }
     
     const handlerCloseModal = () => {
         setVisibleModal(false);
@@ -81,6 +108,7 @@ export const useBocadito = () => {
         initialBocaditoForm,
         visibleModal,
         handlerAddBocadito,
-        handlerCloseModal
+        handlerCloseModal,
+        handlerUpdateBocadito
     }
 }

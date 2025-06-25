@@ -1,9 +1,6 @@
 "use client";
-import { useState } from "react";
-import ModalEstadoPelicula from "./ModalEstadoPelicula";
 
 export default function CardMovie({ movie, onEdit, onEditState }) {
-    const [showModal, setShowModal] = useState(false);
     return (
         <>
             <div className="card w-72 bg-base-100 shadow-xl image-full shadow-md transform transition duration-400 ease-in-out hover:scale-105">

@@ -2,6 +2,7 @@
 import AdminHeader from "@/components/AdminHeader";
 import CardEntrada from "@/components/CardEntrada";
 import ModalEntrada from "@/components/ModalEntrada";
+import ModalEstado from "@/components/ModalEstado";
 import { EntradaContext } from "@/context/EntradaContext";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
@@ -50,6 +51,7 @@ export default function AdminPageEntrada() {
                     handlerAddEntrada={handlerAddEntrada}
                     initialEntradaForm={initialEntradaForm}
                 />}
+                {/* <ModalEstado/> */}
             </main>
         </>
     );

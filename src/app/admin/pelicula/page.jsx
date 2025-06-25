@@ -1,21 +1,17 @@
 "use client";
 import AdminHeader from "@/components/AdminHeader";
 import CardMovie from "@/components/CardMovie";
-import ModalEstadoPelicula from "@/components/ModalEstadoPelicula";
+import ModalEstado from "@/components/ModalEstado";
 import ModalPelicula from "@/components/ModalPelicula";
 import { MovieContext } from "@/context/MovieContext";
 import axios from "axios";
 import { useContext, useEffect, useState } from "react";
 
 export default function AdminPagePelicula() {
+
     const [movieList, setMovieList] = useState([]);
-    const [showModal, setShowModal] = useState(false);
-    const [isEdit, setIsEdit] = useState(false);
-
     const [modalType, setModalType] = useState("");
-
-    const { initialMovieForm, handlerAddMovie, handlerUpdateMovie } =
-        useContext(MovieContext);
+    const { initialMovieForm, handlerAddMovie, handlerUpdateMovie } = useContext(MovieContext);
     const [selectedMovie, setSelectedMovie] = useState(initialMovieForm);
 
     const getMovies = async () => {
@@ -75,7 +71,7 @@ export default function AdminPagePelicula() {
                 )}
 
                 {modalType === "estado" && (
-                    <ModalEstadoPelicula
+                    <ModalEstado
                         isOpen={true}
                         onClose={() => setModalType("")}
                         initialForm={selectedMovie}

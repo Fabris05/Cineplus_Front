@@ -4,19 +4,25 @@ import { MovieContext } from "@/context/MovieContext";
 import { useRouter } from "next/navigation";
 import { useContext, useEffect, useState } from "react";
 
-export default function ModalEstadoPelicula({ initialForm, isOpen, onClose }) {
-    const {handlerChangeState } = useContext(MovieContext);
-    const router = useRouter();
+export default function ModalEstado({ initialForm, isOpen, onClose }) {
+    const { handlerChangeState } = useContext(MovieContext);
     const [show, setShow] = useState(false);
+    const router = useRouter();
 
-    let estado = initialForm.estado;
-    let id = initialForm.idPelicula;
+    const estado = initialForm.estado;
+    const idPel = initialForm.idPelicula;
+    const idBoc = initialForm.idBocadito;
+    const idEn = initialForm.idTipoEntrada;
+
+    const tipo = idPel ? "peliculas" : idBoc ? "bocaditos" : "tipoentrada";
+
+    const id = idPel ?? idBoc ?? idEn;
 
     const nextState = estado === "No listado" ? "Listado" : "No listado";
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        await handlerChangeState(id, nextState)
+        await handlerChangeState(id, nextState, tipo);
         onClose();
         router.refresh();
     };

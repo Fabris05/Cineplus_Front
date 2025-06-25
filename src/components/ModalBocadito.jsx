@@ -1,14 +1,27 @@
 "use client";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export default function ModalBocadito({isOpen, onClose, handlerAddBocadito, initialBocaditoForm}) {
-    
+export default function ModalBocadito({
+    isOpen,
+    onClose,
+    handlerAddBocadito,
+    handlerUpdateBocadito,
+    initialBocaditoForm,
+    isEdit,
+}) {
     const [show, setShow] = useState(false);
     const [form, setForm] = useState(initialBocaditoForm);
+    const router = useRouter();
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        await handlerAddBocadito(form);
+        if (isEdit) {
+            await handlerUpdateBocadito(form);
+        } else {
+            await handlerAddBocadito(form);
+        }
+        router.refresh();
         onClose();
     };
 
@@ -23,6 +36,7 @@ export default function ModalBocadito({isOpen, onClose, handlerAddBocadito, init
 
     useEffect(() => {
         if (isOpen) {
+            setForm(initialBocaditoForm);
             setShow(true);
         } else {
             setShow(false);
@@ -30,7 +44,7 @@ export default function ModalBocadito({isOpen, onClose, handlerAddBocadito, init
     }, [isOpen]);
 
     if (!isOpen) return null;
-    
+
     return (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
             <div
@@ -40,7 +54,7 @@ export default function ModalBocadito({isOpen, onClose, handlerAddBocadito, init
                 `}
             >
                 <h3 className="text-lg font-bold mb-4 text-black">
-                    Agregar Bocadito
+                    {isEdit ? "Editar Bocadito" : "Agregar Bocadito"}
                 </h3>
 
                 <form onSubmit={onSubmit}>
@@ -105,30 +119,36 @@ export default function ModalBocadito({isOpen, onClose, handlerAddBocadito, init
                                 autoComplete="off"
                             ></textarea>
                         </div>
-                        <label className="select input-neutral bg-white w-full max-w-md">
-                            <span className="label text-black font-bold w-40">
-                                Estado
-                            </span>
-                            <select
-                                name="estado"
-                                value={form.estado}
-                                onChange={handleChange}
-                                className="text-black"
-                            >
-                                <option value="No listado">No Listado</option>
-                            </select>
-                        </label>
-                        <fieldset className="fieldset">
-                            <legend className="fieldset-legend text-black">
-                                Selecciona una imagen
-                            </legend>
-                            <input
-                                type="file"
-                                className="file-input w-full bg-white text-black"
-                                name="imagen"
-                                onChange={handleChange}
-                            />
-                        </fieldset>
+                        {!isEdit && (
+                            <>
+                                <label className="select input-neutral bg-white w-full max-w-md">
+                                    <span className="label text-black font-bold w-40">
+                                        Estado
+                                    </span>
+                                    <select
+                                        name="estado"
+                                        value={form.estado}
+                                        onChange={handleChange}
+                                        className="text-black"
+                                    >
+                                        <option value="No listado">
+                                            No Listado
+                                        </option>
+                                    </select>
+                                </label>
+                                <fieldset className="fieldset">
+                                    <legend className="fieldset-legend text-black">
+                                        Selecciona una imagen
+                                    </legend>
+                                    <input
+                                        type="file"
+                                        className="file-input w-full bg-white text-black"
+                                        name="imagen"
+                                        onChange={handleChange}
+                                    />
+                                </fieldset>
+                            </>
+                        )}
                     </div>
 
                     <div className="flex justify-end mt-4">

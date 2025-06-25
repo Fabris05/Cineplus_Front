@@ -11,6 +11,7 @@ export const BocaditoProvider = ({ children }) => {
         visibleModal,
         handlerAddBocadito,
         handlerCloseModal,
+        handlerUpdateBocadito
     } = useBocadito();
 
     return (
@@ -22,6 +23,7 @@ export const BocaditoProvider = ({ children }) => {
                 visibleModal,
                 handlerAddBocadito,
                 handlerCloseModal,
+                handlerUpdateBocadito
             }}
         >
             {children}
