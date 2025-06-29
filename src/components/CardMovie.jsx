@@ -1,6 +1,6 @@
 "use client";
 
-export default function CardMovie({ movie, onEdit, onEditState }) {
+export default function CardMovie({ movie, onEdit, onEditState, isCartelera }) {
     return (
         <>
             <div className="card w-72 bg-base-100 shadow-xl image-full shadow-md transform transition duration-400 ease-in-out hover:scale-105">
@@ -19,13 +19,13 @@ export default function CardMovie({ movie, onEdit, onEditState }) {
                     </span>
                     <div className="card-actions justify-end">
                         <button
-                            className="btn btn-accent hover:scale-105 transition-transform duration-200"
+                            className="btn btn-error hover:scale-105 transition-transform duration-200"
                             onClick={onEditState}
                         >
                             Estado
                         </button>
-                        <button className="btn btn-warning" onClick={onEdit}>
-                            Editar
+                        <button className="btn btn-warning hover:scale-105 transition-transform duration-200" onClick={onEdit}>
+                            {!isCartelera ? "Editar" : "Configurar"}
                         </button>
                     </div>
                 </div>

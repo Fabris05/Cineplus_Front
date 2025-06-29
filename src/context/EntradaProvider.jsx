@@ -11,6 +11,7 @@ export const EntradaProvider = ({ children }) => {
         visibleModal,
         handlerAddEntrada,
         handlerCloseModal,
+        handlerUpdateEntrada
     } = useEntrada();
 
     return (
@@ -22,6 +23,7 @@ export const EntradaProvider = ({ children }) => {
                 visibleModal,
                 handlerAddEntrada,
                 handlerCloseModal,
+                handlerUpdateEntrada
             }}
         >
             {children}

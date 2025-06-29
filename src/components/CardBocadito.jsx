@@ -1,4 +1,5 @@
 export default function CardBocadito({ bocadito, onEdit, onEditState }) {
+
     return (
         <div className="card w-80 bg-base-100 shadow-md hover:shadow-lg transition-shadow">
             <figure className="h-50 overflow-hidden">

@@ -56,6 +56,7 @@ export default function AdminPagePelicula() {
                                 setSelectedMovie(movie);
                                 setModalType("estado");
                             }}
+                            isCartelera={false}
                         />
                     ))}
                 </div>

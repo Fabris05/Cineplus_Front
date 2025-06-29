@@ -1,4 +1,4 @@
-export default function CardEntrada({ entrada }) {
+export default function CardEntrada({ entrada, onEdit, onEditState}) {
     return (
         <div className="card w-80 bg-base-100 shadow-md hover:shadow-lg transition-shadow">
             <figure className="flex w-80 h-50 overflow-hidden mt-2">
@@ -24,13 +24,13 @@ export default function CardEntrada({ entrada }) {
                 <div className="card-actions justify-end mt-4">
                     <button
                         className="btn btn-sm btn-warning"
-                        // onClick={() => onEdit(bocadito)}
+                        onClick={onEdit}
                     >
                         Editar
                     </button>
                     <button
                         className="btn btn-sm btn-error"
-                        // onClick={() => onDelete(bocadito.id)}
+                        onClick={onEditState}
                     >
                         Estado
                     </button>

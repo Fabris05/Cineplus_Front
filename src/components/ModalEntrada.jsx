@@ -1,19 +1,28 @@
 "use client";
 
-import { use, useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
+import { useEffect, useState } from "react";
 
 export default function ModalEntrada({
     isOpen,
     onClose,
     handlerAddEntrada,
+    handlerUpdateEntrada,
     initialEntradaForm,
+    isEdit,
 }) {
-    const[show, setShow] = useState(false);
+    const [show, setShow] = useState(false);
     const [form, setForm] = useState(initialEntradaForm);
+    const router = useRouter();
 
     const onSubmit = async (e) => {
         e.preventDefault();
-        await handlerAddEntrada(form);
+        if (isEdit) {
+            await handlerUpdateEntrada(form);
+        } else {
+            await handlerAddEntrada(form);
+        }
+        router.refresh();
         onClose();
     };
 
@@ -28,6 +37,7 @@ export default function ModalEntrada({
 
     useEffect(() => {
         if (isOpen) {
+            setForm(initialEntradaForm);
             setShow(true);
         } else {
             setShow(false);
@@ -45,7 +55,7 @@ export default function ModalEntrada({
                 `}
             >
                 <h3 className="text-lg font-bold mb-4 text-black">
-                    Agregar Entrada
+                    {isEdit ? "Editar Entrada" : "Registrar Entrada"}
                 </h3>
 
                 <form onSubmit={onSubmit}>
@@ -93,19 +103,23 @@ export default function ModalEntrada({
                                 onChange={handleChange}
                             />
                         </label>
-                        <label className="select input-neutral bg-white w-full max-w-md">
-                            <span className="label text-black font-bold w-40">
-                                Estado
-                            </span>
-                            <select
-                                name="estado"
-                                value={form.estado}
-                                onChange={handleChange}
-                                className="text-black"
-                            >
-                                <option value="No listado">No Listado</option>
-                            </select>
-                        </label>
+                        {!isEdit && (
+                            <label className="select input-neutral bg-white w-full max-w-md">
+                                <span className="label text-black font-bold w-40">
+                                    Estado
+                                </span>
+                                <select
+                                    name="estado"
+                                    value={form.estado}
+                                    onChange={handleChange}
+                                    className="text-black"
+                                >
+                                    <option value="No listado">
+                                        No Listado
+                                    </option>
+                                </select>
+                            </label>
+                        )}
                     </div>
 
                     <div className="flex justify-end mt-4">

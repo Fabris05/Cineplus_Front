@@ -1,4 +1,7 @@
+import { useRouter } from "next/navigation"
+
 export default function CardSala({sala}){
+    const router = useRouter();
     return(
         <div className="card w-80 bg-base-100 shadow-md hover:shadow-lg transition-shadow">
             <figure className="flex w-80 h-50 overflow-hidden mt-2">
@@ -20,15 +23,9 @@ export default function CardSala({sala}){
                 <div className="card-actions justify-end mt-4">
                     <button
                         className="btn btn-sm btn-warning"
-                        // onClick={() => onEdit(bocadito)}
+                        onClick={() => router.push(`/admin/sala/${sala.idSala}/butacas/`)}
                     >
                         Ver Butacas
-                    </button>
-                    <button
-                        className="btn btn-sm btn-error"
-                        // onClick={() => onDelete(bocadito.id)}
-                    >
-                        Estado
                     </button>
                 </div>
             </div>

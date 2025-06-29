@@ -13,7 +13,7 @@ export default function AdminHeader() {
                             <Link href="/admin/pelicula">Películas</Link>
                         </li>
                         <li className="hover:text-yellow-300 duration-300 ease-in">
-                            <Link href="/admin/pelicula">Cartelera</Link>
+                            <Link href="/admin/cartelera">Cartelera</Link>
                         </li>
                         <li className="hover:text-yellow-300 duration-300 ease-in">
                             <Link href="/admin/bocadito">Bocaditos</Link>
