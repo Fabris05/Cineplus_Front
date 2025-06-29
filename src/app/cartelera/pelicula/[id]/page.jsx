@@ -71,7 +71,6 @@ export default function PagePelicula() {
     // };
 
     const handleContinue = () => {
-        // Asignamos filas correctamente basadas en la posición original
         const butacasConFila = selectedButacas.map((butaca) => {
             const index = butacas.findIndex((b) => b.id === butaca.id);
             const fila = String.fromCharCode(65 + Math.floor(index / 8));

@@ -5,11 +5,10 @@ import { createContext, useContext, useEffect, useState } from "react";
 const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-    console.log("🔁 CartProvider renderizado"); // 👈 AÑADE ESTO
     const [cartItems, setCartItems] = useState([]);
     const [showCart, setShowCart] = useState(false);
 
-    // ✅ Cargar carrito desde localStorage al iniciar
+
     useEffect(() => {
         const storedCart = localStorage.getItem("cineplus_cart");
         if (storedCart) {

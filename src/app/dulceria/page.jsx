@@ -10,7 +10,6 @@ export default function BocaditosPage() {
     const [snacks, setSnacks] = useState([]);
     const [loading, setLoading] = useState(true);
     const { addToCart, cartItems } = useCart();
-    console.log("🍬 Carrito desde BocaditosPage:", cartItems); // 👈 AÑADE ESTO
     const getSnacks = async () => {
         try {
             const response = await axios.get("http://localhost:8080/bocaditos");

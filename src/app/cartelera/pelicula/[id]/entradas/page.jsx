@@ -24,12 +24,10 @@ export default function EntradasPage() {
     };
 
     useEffect(() => {
-        // Obtener la reservación del localStorage
         const savedReservation = localStorage.getItem("currentReservation");
         if (savedReservation) {
             setReservation(JSON.parse(savedReservation));
         } else {
-            // Redirigir si no hay reservación
             router.push(`/pelicula/${id}`);
         }
         getEntradas();

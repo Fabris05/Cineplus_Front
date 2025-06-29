@@ -4,11 +4,9 @@ export default function MapaButacas({
     selectedButacas,
     onContinue,
 }) {
-    // Generamos filas representativas (A, B, C, D, E, F)
     const filas = ['A', 'B', 'C', 'D', 'E', 'F', 'I', 'J'];
     const butacasPorFila = {};
 
-    // Agrupamos las butacas por fila representativa
     filas.forEach((fila, index) => {
         butacasPorFila[fila] = butacas.slice(index * 8, (index + 1) * 8);
     });
