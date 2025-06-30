@@ -24,20 +24,20 @@ export default function BocaditosPage() {
     const handlerAddToCart = (snack) => {
         console.log(snack);
         addToCart({
+            tipo: "bocadito",
             id: snack.idBocadito,
             nombre: snack.nombre,
+            cantidad: 1,
             precio: snack.precio,
-            imagen: snack.imagen,
-            cantidad: 1
         });
         Swal.fire({
             position: "top-end",
             icon: "success",
             title: "Producto agregado al carrito",
             showConfirmButton: false,
-            timer: 1500
+            timer: 1500,
         });
-    }
+    };
 
     useEffect(() => {
         getSnacks();
@@ -90,7 +90,9 @@ export default function BocaditosPage() {
                                         </span>
                                         <button
                                             className="btn btn-sm bg-gradient-to-r from-cyan-400 to-blue-400 text-white border-none shadow-sm hover:shadow-md"
-                                            onClick={() => handlerAddToCart({...snack})}
+                                            onClick={() =>
+                                                handlerAddToCart({ ...snack })
+                                            }
                                         >
                                             Añadir
                                         </button>

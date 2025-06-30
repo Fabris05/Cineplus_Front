@@ -4,12 +4,19 @@ export default function MapaButacas({
     selectedButacas,
     onContinue,
 }) {
-    const filas = ['A', 'B', 'C', 'D', 'E', 'F', 'I', 'J'];
-    const butacasPorFila = {};
+    // Agrupamos las butacas por fila
+    const butacasPorFila = butacas.reduce((acc, butaca) => {
+        const codigo = butaca.codigo; // ej: "A1"
+        const fila = codigo?.charAt(0); // obtenemos la letra
 
-    filas.forEach((fila, index) => {
-        butacasPorFila[fila] = butacas.slice(index * 8, (index + 1) * 8);
-    });
+        if (!fila) return acc;
+
+        if (!acc[fila]) acc[fila] = [];
+        acc[fila].push(butaca);
+        return acc;
+    }, {});
+
+    const filasOrdenadas = Object.keys(butacasPorFila).sort(); // ["A", "B", "C", ...]
 
     return (
         <div className="space-y-6">
@@ -21,26 +28,33 @@ export default function MapaButacas({
 
             {/* Butacas */}
             <div className="space-y-3">
-                {Object.entries(butacasPorFila).map(([fila, butacasFila]) => (
-                    <div key={fila} className="flex justify-center space-x-2">
+                {filasOrdenadas.map((fila) => (
+                    <div
+                        key={`fila-${fila}`}
+                        className="flex justify-center space-x-2"
+                    >
                         <span className="w-6 flex items-center justify-center text-sm font-medium text-cyan-700">
                             {fila}
                         </span>
-                        {butacasFila.map((butaca) => (
+                        {butacasPorFila[fila].map((butaca) => (
                             <button
-                                key={butaca.id}
-                                onClick={() => onSelectButaca(butaca.id)}
+                                key={`butaca-${butaca.idButacaSala}`}
+                                onClick={() => onSelectButaca(butaca)}
                                 className={`w-8 h-8 rounded-md flex items-center justify-center text-xs transition-all
-                  ${
-                      butaca.estado === "ocupado"
-                          ? "bg-gray-300/50 cursor-not-allowed"
-                          : butaca.estado === "seleccionado"
-                          ? "bg-cyan-400/60 border-cyan-400/70"
-                          : "bg-cyan-400/20 hover:bg-cyan-400/40 border border-cyan-400/30"
-                  }`}
+                                    ${
+                                        butaca.estado === "ocupado"
+                                            ? "bg-gray-300/50 cursor-not-allowed"
+                                            : selectedButacas.some(
+                                                  (b) =>
+                                                      b.idButaca ===
+                                                      butaca.idButaca
+                                              )
+                                            ? "bg-cyan-400/60 border-cyan-400/70"
+                                            : "bg-cyan-400/20 hover:bg-cyan-400/40 border border-cyan-400/30"
+                                    }`}
                                 disabled={butaca.estado === "ocupado"}
                             >
-                                {fila}{butaca.numero}
+                                {butaca.codigo}
                             </button>
                         ))}
                     </div>
@@ -51,21 +65,17 @@ export default function MapaButacas({
             {selectedButacas.length > 0 && (
                 <div className="mt-6 p-4 bg-white/50 rounded-lg border border-cyan-400/30">
                     <h3 className="font-medium text-cyan-900 mb-2">
-                        Butacas seleccionadas:
+                        Butacas seleccionadas ({selectedButacas.length}):
                     </h3>
                     <div className="flex flex-wrap gap-2">
-                        {selectedButacas.map((butaca, index) => {
-                            // Calculamos la fila representativa basada en el índice
-                            const fila = String.fromCharCode(65 + Math.floor(index / 8));
-                            return (
-                                <span
-                                    key={butaca.id}
-                                    className="badge bg-cyan-400/20 text-cyan-700 border-cyan-400/30"
-                                >
-                                    {fila}{butaca.numero}
-                                </span>
-                            );
-                        })}
+                        {selectedButacas.map((butaca) => (
+                            <span
+                                key={`resumen-${butaca.idButacaSala}`}
+                                className="badge bg-cyan-400/20 text-cyan-700 border-cyan-400/30"
+                            >
+                                {butaca.codigo}
+                            </span>
+                        ))}
                     </div>
                 </div>
             )}

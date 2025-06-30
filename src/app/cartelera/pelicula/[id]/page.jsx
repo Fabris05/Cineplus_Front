@@ -37,11 +37,14 @@ export default function PagePelicula() {
             const response = await axios.get(
                 `http://localhost:8080/butacasala/sala/${salaId}`
             );
-            const formattedButacas = response.data.map((butaca, index) => ({
-                id: butaca.id,
+            const formattedButacas = response.data.map((item, index) => ({
+                idButacaSala: item.idButacaSala,
+                idButaca: item.butaca.idButaca,
+                codigo: item.butaca.codigo,
                 numero: (index % 8) + 1,
-                estado: butaca.ocupada ? "ocupado" : "disponible",
+                estado: item.estado === "Ocupada" ? "ocupado" : "disponible",
             }));
+            console.log(formattedButacas);
             resetButacas();
             setButacas(formattedButacas);
         } catch (error) {
@@ -57,33 +60,27 @@ export default function PagePelicula() {
         console.log(horario);
     };
 
-    // const handleContinue = () => {
-    //     const reservationData = {
-    //         movie: movieDetalle.pelicula,
-    //         horario: selectedHorario,
-    //         butacas: selectedButacas.map((butaca, index) => ({
-    //             ...butaca,
-    //             fila: String.fromCharCode(65 + Math.floor(index / 8)), // A, B, C, etc.
-    //         })),
-    //     };
-    //     localStorage.setItem("currentReservation", JSON.stringify(reservationData));
-    //     router.push(`/pelicula/${id}/entradas`);
-    // };
-
     const handleContinue = () => {
-        const butacasConFila = selectedButacas.map((butaca) => {
-            const index = butacas.findIndex((b) => b.id === butaca.id);
-            const fila = String.fromCharCode(65 + Math.floor(index / 8));
-            return {
-                ...butaca,
-                fila: fila,
-            };
-        });
+        if (selectedButacas.length === 0) {
+            return Swal.fire({
+                icon: "warning",
+                title: "Selecciona al menos una butaca",
+                background: "rgba(255, 255, 255, 0.9)",
+                backdrop: "blur(4px)",
+                confirmButtonColor: "#06b6d4",
+            });
+        }
+
+        const butacasConFila = selectedButacas.map((butaca) => ({
+            ...butaca,
+            fila: butaca.codigo?.charAt(0) || "",
+        }));
 
         const reservationData = {
-            movie: movieDetalle.pelicula,
+            pelicula: movieDetalle.pelicula,
             horario: selectedHorario,
             sala: movieDetalle.sala,
+            idCartelera: movieDetalle?.idCartelera,
             butacas: butacasConFila,
         };
 
@@ -91,7 +88,7 @@ export default function PagePelicula() {
             "currentReservation",
             JSON.stringify(reservationData)
         );
-        router.push(`/pelicula/${id}/entradas`);
+        router.push(`/cartelera/pelicula/${id}/entradas`);
     };
 
     let horas = null;
@@ -199,6 +196,26 @@ export default function PagePelicula() {
                                         <span>
                                             Dirigida por{" "}
                                             {movieDetalle.pelicula.director}
+                                        </span>
+                                    </div>
+
+                                    <div className="flex items-center">
+                                        <svg
+                                            className="w-5 h-5 mr-2 text-cyan-600"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            viewBox="0 0 24 24"
+                                            xmlns="http://www.w3.org/2000/svg"
+                                        >
+                                            <path
+                                                strokeLinecap="round"
+                                                strokeLinejoin="round"
+                                                strokeWidth="2"
+                                                d="M7 21v-2a1 1 0 011-1h8a1 1 0 011 1v2M5 21h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v14a2 2 0 002 2zm5-16h4m-4 4h4m-4 4h4"
+                                            />
+                                        </svg>
+                                        <span>
+                                            Sala {movieDetalle.sala.numero}
                                         </span>
                                     </div>
 

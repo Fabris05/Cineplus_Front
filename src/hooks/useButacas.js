@@ -4,35 +4,39 @@ export const useButacas = (initialButacas = []) => {
     const [butacas, setButacas] = useState(initialButacas);
     const [selectedButacas, setSelectedButacas] = useState([]);
 
-    const toggleButaca = (id) => {
-        setButacas(prevButacas => 
-            prevButacas.map(butaca => 
-                butaca.id === id
-                    ? { 
-                        ...butaca, 
-                        estado: butaca.estado === "seleccionado" ? "disponible" : "seleccionado" 
-                      } 
-                    : butaca
+    const toggleButaca = (butaca) => {
+        const id = butaca.idButacaSala;
+
+        setButacas((prevButacas) =>
+            prevButacas.map((b) =>
+                b.idButacaSala === id
+                    ? {
+                          ...b,
+                          estado:
+                              b.estado === "seleccionado"
+                                  ? "disponible"
+                                  : "seleccionado",
+                      }
+                    : b
             )
         );
 
-        setSelectedButacas(prev => {
-            const exists = prev.some(b => b.id === id);
+        setSelectedButacas((prev) => {
+            const exists = prev.some((b) => b.idButacaSala === id);
             if (exists) {
-                return prev.filter(b => b.id !== id);
+                return prev.filter((b) => b.idButacaSala !== id);
             } else {
-                const butaca = butacas.find(b => b.id === id);
-                return butaca ? [...prev, butaca] : prev;
+                return [...prev, { ...butaca }];
             }
         });
     };
 
     const resetButacas = () => {
-        setButacas(prevButacas => 
-            prevButacas.map(butaca => 
-                butaca.estado === "seleccionado" 
-                    ? { ...butaca, estado: "disponible" } 
-                    : butaca
+        setButacas((prev) =>
+            prev.map((b) =>
+                b.estado === "seleccionado"
+                    ? { ...b, estado: "disponible" }
+                    : b
             )
         );
         setSelectedButacas([]);
